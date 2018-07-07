@@ -1,0 +1,53 @@
+{
+  "name": "splittable",
+  "version": "1.0.0",
+  "description": "A better way to sort your share",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "jest",
+    "react-dev": "webpack -d --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clfhhc/splittable.git"
+  },
+  "keywords": [
+    "split",
+    "table",
+    "redux"
+  ],
+  "author": "David Chen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/clfhhc/splittable/issues"
+  },
+  "homepage": "https://github.com/clfhhc/splittable#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.5",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^1.0.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.9.1",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.4.1",
+    "webpack": "^4.15.1",
+    "webpack-cli": "^3.0.8"
+  },
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-saga": "^0.16.0"
+  }
+}
