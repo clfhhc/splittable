@@ -1,0 +1,26 @@
+.cost-table * {
+  outline: none;
+}
+
+.cost-table .rt-td>div{
+  text-align: center;
+}
+
+.cost-table [contenteditable="true"]:hover {
+  border-bottom: 1px solid rgba(0,0,0,0.3)
+}
+
+.cost-table [contenteditable="true"]:focus {
+  border-bottom: 1.5px solid rgba(0,0,0,0.6)
+}
+
+.user-select {
+  border: 1px solid rgba(0,0,0,0.1);
+  background: #fff;
+  padding: 1px 7px;
+  width: 100%;
+  font-size: inherit;
+  border-radius: 3px;
+  font-weight: normal;
+  outline: none;
+}
