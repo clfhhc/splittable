@@ -48,6 +48,7 @@ const emptyRow = {
 class CostTable extends React.Component {
   constructor(props) {
     super(props);
+    this.renderDeleteButton = this.renderDeleteButton.bind(this);
     this.calculateShare = this.calculateShare.bind(this);
     this.renderEditable = this.renderEditable.bind(this);
     this.renderUserSelection = this.renderUserSelection.bind(this);
@@ -132,6 +133,19 @@ class CostTable extends React.Component {
   }
 
 /* eslint-disable */
+  renderDeleteButton(cellInfo) {
+    return (
+      <div
+        className="delete-row"
+        onClick={(event) => {
+          const data = [...this.state.data];
+          data.splice(cellInfo.index, 1);
+          this.setState({ data });
+        }}
+      />
+    )
+  }
+
   renderEditable(newData, isNumber) {
     return (cellInfo) => (
       <div
@@ -190,6 +204,14 @@ class CostTable extends React.Component {
           data={newData}
           columns={[
             {
+              columns:[{
+                Header: '\u274c',
+                id: 'delete',
+                // accessor: d => '\u274c',
+                Cell: this.renderDeleteButton,
+              }],
+            },
+            {
               Header: 'Cost Info',
               headerClassName: "cost-header cost-info",
               columns: fields.map(field => ({
@@ -198,40 +220,6 @@ class CostTable extends React.Component {
                 show: field.show,
                 Cell: field.cellCb === 0 ? this.renderEditable(newData,field.isNumber) : this.renderUserSelection(newData),
               }))
-              
-              // [
-              //   {
-              //     Header: 'Item',
-              //     // headerClassName: "cost-header",
-              //     accessor: 'item',
-              //     Cell: this.renderEditable(newData),
-              //   },
-              //   {
-              //     Header: 'Cost Type',
-              //     // headerClassName: "cost-header",
-              //     accessor: 'type',
-              //     Cell: this.renderEditable(newData),
-              //   },
-              //   {
-              //     Header: 'Cost',
-              //     // headerClassName: "cost-header",
-              //     accessor: 'amount',
-              //     Cell: this.renderEditable(newData, true),
-              //   },
-              //   {
-              //     Header: 'Payer',
-              //     // headerClassName: "cost-header",
-              //     accessor: 'payer',
-              //     Cell: this.renderUserSelection(newData),
-              //   },
-              //   {
-              //     Header: 'Notes',
-              //     // headerClassName: "cost-header",
-              //     accessor: 'notes',
-              //     show: false,
-              //     Cell: this.renderEditable(newData),
-              //   },
-              // ],
             },
             {
               Header: 'Shares',
@@ -263,6 +251,10 @@ class CostTable extends React.Component {
             }
           ]}
           
+          resized={[{
+            id: 'delete',
+            value: 40,
+          }]}
           showPagination={false}
           minRows={1}
           defaultPageSize={10}
