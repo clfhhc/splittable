@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+body {
+  font-family: 'Lato', sans-serif;
+}
+
+header {
+  text-align: center;
+}
+
+h1 {
+  align-self: center;
+  font-style: italic;
+  font-size: 50px;
+  font-weight: lighter;
+}

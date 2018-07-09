@@ -48,6 +48,7 @@ const emptyRow = {
 class CostTable extends React.Component {
   constructor(props) {
     super(props);
+    this.renderCostInfoHeader = this.renderCostInfoHeader.bind(this);
     this.renderDeleteButton = this.renderDeleteButton.bind(this);
     this.calculateShare = this.calculateShare.bind(this);
     this.renderEditable = this.renderEditable.bind(this);
@@ -137,6 +138,24 @@ class CostTable extends React.Component {
   }
 
 /* eslint-disable */
+  renderCostInfoHeader() {
+    return (
+      <div
+        className="cost-info-header"
+        onClick={(event) => {
+          const { fields } = this.state;
+          const newFields = fields.map(obj => ({ ...obj }));
+          newFields[4].show = !newFields[4].show;
+          this.setState({
+            fields: newFields,
+          })
+        }}
+      >
+        Cost Info
+      </div>
+    );
+  }
+
   renderDeleteButton(cellInfo) {
     return (
       <div
@@ -216,7 +235,7 @@ class CostTable extends React.Component {
               }],
             },
             {
-              Header: 'Cost Info',
+              Header: this.renderCostInfoHeader,
               headerClassName: "cost-header cost-info",
               columns: fields.map(field => ({
                 Header: field.Header,

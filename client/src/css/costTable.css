@@ -21,6 +21,14 @@
   transform: translate(-50%, -50%);
 }
 
+.cost-table .cost-info-header {
+  cursor: pointer;
+}
+
+.cost-table .cost-info-header:hover::after {
+  content: '  (toggle notes)';
+}
+
 .cost-table .delete-row {
   cursor: pointer;
 }

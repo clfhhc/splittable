@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 import SplitTable from './components/splitTable';
 // import configureStore from './redux/store/configureStore';
 // import sagas from './redux/actions/sagas';
+import '../css/main.css';
 
 // const initialState = {
 
