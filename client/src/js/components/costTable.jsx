@@ -97,6 +97,10 @@ class CostTable extends React.Component {
           cellCb: 0,
         },
       ],
+      resized: [{
+        id: 'delete',
+        value: 40,
+      }],
     };
   }
 
@@ -195,7 +199,7 @@ class CostTable extends React.Component {
   }
 
   render() {
-    const { fields, data, users } = this.state;
+    const { fields, data, users, resized } = this.state;
     let newData = [...data, {...emptyRow}];
     console.log(newData);
     return (
@@ -251,13 +255,11 @@ class CostTable extends React.Component {
             }
           ]}
           
-          resized={[{
-            id: 'delete',
-            value: 40,
-          }]}
+          resized={resized}
           showPagination={false}
           minRows={1}
           defaultPageSize={10}
+          onResizedChange={resized => this.setState({ resized })}
           className="-striped -highlight cost-table"
         />
       </div>

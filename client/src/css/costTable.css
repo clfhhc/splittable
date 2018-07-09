@@ -2,7 +2,11 @@
   outline: none;
 }
 
-.cost-table .rt-td{
+.cost-table .rt-th {
+  height: 30px;
+}
+
+.cost-table .rt-td {
   position: relative;
   box-sizing: border-box;
   height: 30px;
