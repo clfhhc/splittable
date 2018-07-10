@@ -1,0 +1,69 @@
+.cost-table * {
+  outline: none;
+}
+
+.cost-table .rt-td>* {
+  text-align: center;
+  position: absolute;
+  width: 90%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cost-table .cost-info-header {
+  cursor: pointer;
+}
+
+.cost-table .cost-info-header:hover::after {
+  content: '  (toggle notes)';
+}
+
+.cost-table .rt-td [contenteditable="true"]:hover {
+  transform: translateY( '1px' );
+  border-bottom: 1px solid rgba(0,0,0,0.3)
+}
+
+.cost-table .rt-td [contenteditable="true"]:focus:hover {
+  border-bottom: 0;
+}
+
+
+.cost-table .rt-td [contenteditable="true"]::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  align-content: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 130%;
+  box-shadow: 0.5px 0.5px 1px #888888;
+  background-color: #fff;
+  opacity: 0;
+}
+
+.cost-table .rt-td [contenteditable="true"]:focus::after {
+  opacity: 1;
+}
+
+.cost-table .rt-td [contenteditable="true"]:focus {
+  transition: opacity;
+}
+
+
+.user-select {
+  border: 1px solid rgba(0,0,0,0.1);
+  background: #fff;
+  padding: 1px 7px;
+  width: 100%;
+  font-size: inherit;
+  border-radius: 3px;
+  font-weight: normal;
+  outline: none;
+}
+
+.cost-table .rt-tfoot .rt-td {
+  text-align: center;
+}

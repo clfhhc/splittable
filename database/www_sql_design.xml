@@ -73,10 +73,10 @@
 </row>
 <row name="current_share" null="1" autoincrement="0">
 <datatype>DECIMAL((11, 2))</datatype>
-</row>
+<default>NULL</default></row>
 <row name="cost" null="1" autoincrement="0">
 <datatype>DECIMAL((11,2))</datatype>
-</row>
+<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
@@ -92,13 +92,13 @@
 <datatype>INTEGER</datatype>
 <default>1</default><relation table="transaction_types" row="type_id" />
 </row>
-<row name="description" null="1" autoincrement="0">
+<row name="notes" null="1" autoincrement="0">
 <datatype>VARCHAR(100)</datatype>
 <default>NULL</default></row>
 <row name="amount" null="1" autoincrement="0">
 <datatype>DECIMAL((11,2))</datatype>
 <default>0</default></row>
-<row name="who_paid" null="0" autoincrement="0">
+<row name="payer" null="0" autoincrement="0">
 <datatype>BIGINT</datatype>
 <relation table="users" row="user_id" />
 </row>
