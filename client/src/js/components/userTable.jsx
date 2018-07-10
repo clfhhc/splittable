@@ -48,20 +48,23 @@ class UserTable extends React.Component {
 
   renderEditable() {
     return (
-      <div
-        contentEditable
-        suppressContentEditableWarning
-        onKeyDown={(event) => {
-          if (event.which === 13) {
-            const { users } = this.state;
-            if (!event.target.innerHTML) { return; }
-            users.push({ user: event.target.innerHTML });
-            event.target.innerHTML = '';
-            this.setState({ users });
-            event.preventDefault();
-          }
-        }}
-      />
+      <div className="user-input-header-div">
+        <span>Input new user:</span>
+        <div
+          contentEditable
+          suppressContentEditableWarning
+          onKeyDown={(event) => {
+            if (event.which === 13) {
+              const { users } = this.state;
+              if (!event.target.innerHTML) { return; }
+              users.push({ user: event.target.innerHTML });
+              event.target.innerHTML = '';
+              this.setState({ users });
+              event.preventDefault();
+            }
+          }}
+        />
+      </div>
     );
   }
 

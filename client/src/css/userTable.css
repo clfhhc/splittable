@@ -5,6 +5,18 @@
   width: 90%;
 }
 
+.user-table .user-input-header-div {
+  text-align: left;
+  margin-left: 10px;
+}
+
+.user-table .user-input-header [contenteditable="true"] {
+  text-align: center;
+  margin-left: 10px;
+  width: 90%;
+  display: inline-block;
+}
+
 .user-table .user-input-header [contenteditable="true"]:hover {
   transform: translateY( '1px' );
   border-bottom: 1px solid rgba(0,0,0,0.3)
