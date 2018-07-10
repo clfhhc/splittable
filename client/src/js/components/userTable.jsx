@@ -1,28 +1,28 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import ReactTable from 'react-table';
+import { updateUserTable } from '../redux/actions/index';
 
 import 'react-table/react-table.css';
 import '../../css/userTable.css';
 
-const mockUsers = [
-  'David',
-  'Charlie',
-  'Tony',
-  'Harry',
-  'A',
-  'B',
-  'C',
-  'D',
-];
+const mapStateToProps = state => ({
+  users: state.users,
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateUserTable: (users) => {
+    dispatch(updateUserTable(users));
+  },
+});
+
 
 class UserTable extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      users: mockUsers.map(user => ({ user })),
       resized: [
         {
           id: 'delete',
@@ -31,7 +31,7 @@ class UserTable extends React.Component {
         {
           id: 'user',
           value: 140,
-        }
+        },
       ],
     };
 
@@ -44,9 +44,10 @@ class UserTable extends React.Component {
       <div
         className="delete-row"
         onClick={() => {
-          const users = [...this.state.users];
+          const users = [...this.props.users];
           users.splice(cellInfo.index, 1);
-          this.setState({ users });
+          // this.setState({ users });
+          this.props.updateUserTable(users);
         }}
       />
     );
@@ -59,11 +60,12 @@ class UserTable extends React.Component {
         suppressContentEditableWarning
         onKeyDown={(event) => {
           if (event.which === 13) {
-            const { users } = this.state;
+            const users = [...this.props.users];
             if (!event.target.innerHTML) { return; }
-            users.push({ user: event.target.innerHTML });
+            users.push(event.target.innerHTML);
             event.target.innerHTML = '';
-            this.setState({ users });
+            // this.setState({ users });
+            this.props.updateUserTable(users);
             event.preventDefault();
           }
         }}
@@ -72,7 +74,8 @@ class UserTable extends React.Component {
   }
 
   render() {
-    const { users, resized } = this.state;
+    const { users } = this.props;
+    const { resized } = this.state;
     return (
       <div>
         <ReactTable
@@ -91,7 +94,8 @@ class UserTable extends React.Component {
                 {
                   Header: this.renderEditable,
                   headerClassName: 'user-input-header',
-                  accessor: 'user',
+                  id: 'user',
+                  accessor: user => user,
                   sortable: false,
                 },
               ],
@@ -115,4 +119,6 @@ class UserTable extends React.Component {
   }
 }
 
-export default UserTable;
+const ConnectedUserTable = connect(mapStateToProps, mapDispatchToProps)(UserTable);
+
+export default ConnectedUserTable;

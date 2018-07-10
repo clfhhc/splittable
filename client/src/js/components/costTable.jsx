@@ -1,45 +1,46 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import ReactTable from 'react-table';
+import { updateCostTable, updateShareTable } from '../redux/actions/index';
 
 import 'react-table/react-table.css';
 import '../../css/costTable.css';
 
-const precision = 1000;
+const precision = 100;
 
 const mockData = [
   {
     item: 'Airbnb',
-    type: 'accommodation',
+    type: 'Accommodation',
     amount: 360 * precision,
     payer: 'David',
-    notes: 'hello',
+    notes: 'Charlie only stayed for one night',
     David: 2 * precision,
     Charlie: 1 * precision,
-    Tony: 3 * precision,
+    Tony: 2 * precision,
   },
   {
     item: 'Burger King',
-    type: 'food',
-    amount: 15 * precision,
-    payer: 'David',
-    notes: 'Hi',
-    David: 3 * precision,
-    Tony: 2 * precision,
+    type: 'Food',
+    amount: 14.75 * precision,
+    payer: 'Charlie',
+    notes: 'so dilicious',
+    David: 6.89 * precision,
+    Tony: (14.75 - 6.89) * precision,
   },
 ];
 
-const mockUsers = [
-  'David',
-  'Charlie',
-  'Tony',
-  'Harry',
-  'A',
-  'B',
-  'C',
-  'D',
-];
+// const mockUsers = [
+//   'David',
+//   'Charlie',
+//   'Tony',
+//   'Harry',
+//   'A',
+//   'B',
+//   'C',
+//   'D',
+// ];
 
 const emptyUser = '';
 
@@ -50,6 +51,21 @@ const emptyRow = {
   payer: '',
   notes: '',
 };
+
+const mapStateToProps = state => ({
+  users: state.users,
+  costs: state.costs,
+  shares: state.shares,
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateCostTable: (costs) => {
+    dispatch(updateCostTable(costs));
+  },
+  updateShareTable: (shares) => {
+    dispatch(updateShareTable(shares));
+  },
+});
 
 class CostTable extends React.Component {
   constructor(props) {
@@ -64,7 +80,7 @@ class CostTable extends React.Component {
 
     this.state = {
       costSharingData: mockData,
-      users: mockUsers,
+      // users: mockUsers,
       fields: [
         {
           Header: 'Item',
@@ -120,7 +136,7 @@ class CostTable extends React.Component {
   }
 
   calculateTotal(costSharingData) {
-    const { users } = this.state;
+    const { users } = this.props;
     this.total = {
       cost: 0,
       portion: {},
@@ -144,7 +160,7 @@ class CostTable extends React.Component {
       row.amount
       * (
         (row[userName] || 0)
-        / this.state.users.reduce((sum, user) => (row[user] || 0) + sum, 0)
+        / this.props.users.reduce((sum, user) => (row[user] || 0) + sum, 0)
         - (userName === row.payer ? 1 : 0)
       )
     );
@@ -155,21 +171,22 @@ class CostTable extends React.Component {
       row.amount
       * (
         (row[userName] || 0)
-        / this.state.users.reduce((sum, user) => (row[user] || 0) + sum, 0)
+        / this.props.users.reduce((sum, user) => (row[user] || 0) + sum, 0)
       )
     );
   }
 
-  calculateTotalPortion(userName) {
-    return this.state.costSharingData.reduce(
-      (sum, row) => sum + this.calculatePortion(userName, row),
-      0,
-    );
-  }
+  // calculateTotalPortion(userName) {
+  //   return this.state.costSharingData.reduce(
+  //     (sum, row) => sum + this.calculatePortion(userName, row),
+  //     0,
+  //   );
+  // }
 
   detectEmptyRow(row) {
     if (!row) { return false; }
-    const { users, fields } = this.state;
+    const { fields } = this.state;
+    const { users } = this.props;
     let i = 0;
     while (i < fields.length) {
       if (row[fields[i].accessor] || row[fields[i].id]) {
@@ -245,7 +262,7 @@ class CostTable extends React.Component {
           }
         }}
         dangerouslySetInnerHTML={{
-          __html: (isNumber ? Math.round(newData[cellInfo.index][cellInfo.column.id]) / 1000 : newData[cellInfo.index][cellInfo.column.id])|| '',
+          __html: (isNumber ? Math.round(newData[cellInfo.index][cellInfo.column.id]) / precision : newData[cellInfo.index][cellInfo.column.id])|| '',
         }}
       />
     );
@@ -266,7 +283,7 @@ class CostTable extends React.Component {
         }}
         value={newData[cellInfo.index][cellInfo.column.id] || ''}
       >
-        {[...this.state.users, emptyUser].map(user => (
+        {[...this.props.users, emptyUser].map(user => (
           <option value={user} key={user}>{user}</option>
         ))}
       </select>
@@ -274,7 +291,8 @@ class CostTable extends React.Component {
   }
 
   render() {
-    const { fields, costSharingData, users, resized } = this.state;
+    const { fields, costSharingData, resized } = this.state;
+    const { users } = this.props;
     let newData = [...costSharingData, {...emptyRow}];
     return (
       <div>
@@ -354,4 +372,6 @@ class CostTable extends React.Component {
 
 /* eslint-enable */
 
-export default CostTable;
+const ConnectedCostTable = connect(mapStateToProps, mapDispatchToProps)(CostTable);
+
+export default ConnectedCostTable;
