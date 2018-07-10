@@ -210,7 +210,7 @@ class CostTable extends React.Component {
     return (
       <div
         className="delete-row"
-        onClick={(event) => {
+        onClick={() => {
           const costSharingData = [...this.state.costSharingData];
           costSharingData.splice(cellInfo.index, 1);
           this.calculateTotal(costSharingData);
@@ -240,7 +240,7 @@ class CostTable extends React.Component {
         }}
         onKeyDown={(event) => {
           if (event.which === 13 || (isNumber && event.which === 32)) {
-            if(document.activeElement.toString() == '[object HTMLDivElement]'){ document.activeElement.blur(); }
+            if (document.activeElement.toString() === '[object HTMLDivElement]') { document.activeElement.blur(); }
             event.preventDefault();
           }
         }}
@@ -285,6 +285,7 @@ class CostTable extends React.Component {
               columns:[{
                 Header: '\u274c',
                 id: 'delete',
+                sortable: false,
                 // accessor: d => '\u274c',
                 Cell: this.renderDeleteButton,
               }],
@@ -343,7 +344,6 @@ class CostTable extends React.Component {
           resized={resized}
           showPagination={false}
           minRows={1}
-          defaultPageSize={10}
           onResizedChange={resized => this.setState({ resized })}
           className="-striped -highlight cost-table"
         />

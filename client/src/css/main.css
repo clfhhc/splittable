@@ -14,3 +14,31 @@ h1 {
   font-size: 50px;
   font-weight: lighter;
 }
+
+.ReactTable .rt-th div{
+  outline: none;
+}
+
+.ReactTable .rt-th{
+  height: 30px;
+}
+
+.ReactTable .rt-td {
+  position: relative;
+  box-sizing: border-box;
+  height: 30px;
+}
+
+.ReactTable .delete-row {
+  cursor: pointer;
+}
+
+.ReactTable .delete-row::after {
+  content: "\274c";
+  opacity: 0;
+}
+
+.ReactTable .delete-row:hover::after {
+  opacity: 1;
+  transition: opacity;
+}

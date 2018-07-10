@@ -1,0 +1,16 @@
+.user-table .rt-td {
+  display: inline-block;
+  text-align: center;
+  /* position: absolute; */
+  width: 90%;
+}
+
+.user-table .user-input-header [contenteditable="true"]:hover {
+  transform: translateY( '1px' );
+  border-bottom: 1px solid rgba(0,0,0,0.3)
+}
+
+.user-table .user-input-header [contenteditable="true"]:focus {
+  border: 0;
+  border-bottom: 1px solid rgba(0,0,0,0.6)
+}
