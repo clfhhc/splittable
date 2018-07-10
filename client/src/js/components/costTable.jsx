@@ -48,13 +48,15 @@ const emptyRow = {
 class CostTable extends React.Component {
   constructor(props) {
     super(props);
+
     this.renderCostInfoHeader = this.renderCostInfoHeader.bind(this);
     this.renderDeleteButton = this.renderDeleteButton.bind(this);
     this.calculateShare = this.calculateShare.bind(this);
     this.renderEditable = this.renderEditable.bind(this);
     this.renderUserSelection = this.renderUserSelection.bind(this);
+
     this.state = {
-      data: mockData,
+      costSharingData: mockData,
       users: mockUsers,
       fields: [
         {
@@ -63,7 +65,8 @@ class CostTable extends React.Component {
           accessor: 'item',
           show: true,
           isNumber: false,
-          cellCb: 0,
+          cellCb: this.renderEditable,
+          Footer: 'Sum',
         },
         {
           Header: 'Cost Type',
@@ -71,7 +74,8 @@ class CostTable extends React.Component {
           accessor: 'type',
           show: true,
           isNumber: false,
-          cellCb: 0,
+          cellCb: this.renderEditable,
+          Footer: 'Total Cost:',
         },
         {
           Header: 'Cost',
@@ -79,7 +83,7 @@ class CostTable extends React.Component {
           accessor: 'amount',
           show: true,
           isNumber: true,
-          cellCb: 0,
+          cellCb: this.renderEditable,
         },
         {
           Header: 'Payer',
@@ -87,7 +91,7 @@ class CostTable extends React.Component {
           accessor: 'payer',
           show: true,
           isNumber: false,
-          cellCb: 1,
+          cellCb: this.renderUserSelection,
         },
         {
           Header: 'Notes',
@@ -95,7 +99,7 @@ class CostTable extends React.Component {
           accessor: 'notes',
           show: false,
           isNumber: false,
-          cellCb: 0,
+          cellCb: this.renderEditable,
         },
       ],
       resized: [{
@@ -161,9 +165,9 @@ class CostTable extends React.Component {
       <div
         className="delete-row"
         onClick={(event) => {
-          const data = [...this.state.data];
-          data.splice(cellInfo.index, 1);
-          this.setState({ data });
+          const costSharingData = [...this.state.costSharingData];
+          costSharingData.splice(cellInfo.index, 1);
+          this.setState({ costSharingData });
         }}
       />
     )
@@ -176,14 +180,13 @@ class CostTable extends React.Component {
         contentEditable
         suppressContentEditableWarning
         onBlur={(event) => {
-          const data = [...this.state.data];
-          data[cellInfo.index] = data[cellInfo.index] || {};
-          data[cellInfo.index][cellInfo.column.id] = isNumber ? parseFloat(event.target.innerHTML || 0) : event.target.innerHTML;
-          this.detectEmptyRow(data[cellInfo.index]) && data.splice(cellInfo.index, 1);
-          this.setState({ data });
+          const costSharingData = [...this.state.costSharingData];
+          costSharingData[cellInfo.index] = costSharingData[cellInfo.index] || {};
+          costSharingData[cellInfo.index][cellInfo.column.id] = isNumber ? parseFloat(event.target.innerHTML || 0) : event.target.innerHTML;
+          this.detectEmptyRow(costSharingData[cellInfo.index]) && costSharingData.splice(cellInfo.index, 1);
+          this.setState({ costSharingData });
         }}
         dangerouslySetInnerHTML={{
-          // __html: this.state.data[cellInfo.index][cellInfo.column.id] || '',
           __html: newData[cellInfo.index][cellInfo.column.id] || '',
         }}
       />
@@ -194,21 +197,15 @@ class CostTable extends React.Component {
     return (cellInfo) => (
       <select
         style={{ backgroundColor: '#fafafa' }}
-        // contentEditable
-        // suppressContentEditableWarning
         className="user-select"
         onChange={(event) => {
-          const data = [...this.state.data];
-          data[cellInfo.index] = data[cellInfo.index] || {};
-          data[cellInfo.index][cellInfo.column.id] = event.target.value;
-          this.detectEmptyRow(data[cellInfo.index]) && data.splice(cellInfo.index, 1);
-          this.setState({ data });
+          const costSharingData = [...this.state.costSharingData];
+          costSharingData[cellInfo.index] = costSharingData[cellInfo.index] || {};
+          costSharingData[cellInfo.index][cellInfo.column.id] = event.target.value;
+          this.detectEmptyRow(costSharingData[cellInfo.index]) && costSharingData.splice(cellInfo.index, 1);
+          this.setState({ costSharingData });
         }}
-        // value={this.state.data[cellInfo.index][cellInfo.column.id] || ''}
         value={newData[cellInfo.index][cellInfo.column.id] || ''}
-        // dangerouslySetInnerHTML={{
-        //   __html: this.state.data[cellInfo.index][cellInfo.column.id] || '',
-        // }}
       >
         {[...this.state.users, emptyUser].map(user => (
           <option value={user} key={user}>{user}</option>
@@ -218,8 +215,8 @@ class CostTable extends React.Component {
   }
 
   render() {
-    const { fields, data, users, resized } = this.state;
-    let newData = [...data, {...emptyRow}];
+    const { fields, costSharingData, users, resized } = this.state;
+    let newData = [...costSharingData, {...emptyRow}];
     console.log(newData);
     return (
       <div>
@@ -241,7 +238,8 @@ class CostTable extends React.Component {
                 Header: field.Header,
                 accessor: field.accessor,
                 show: field.show,
-                Cell: field.cellCb === 0 ? this.renderEditable(newData,field.isNumber) : this.renderUserSelection(newData),
+                Cell: field.cellCb(newData, field.isNumber),
+                Footer: field.Footer,
               }))
             },
             {
