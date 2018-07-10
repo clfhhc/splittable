@@ -23,10 +23,16 @@ class UserTable extends React.Component {
 
     this.state = {
       users: mockUsers.map(user => ({ user })),
-      resized: [{
-        id: 'delete',
-        value: 40,
-      }],
+      resized: [
+        {
+          id: 'delete',
+          value: 40,
+        },
+        {
+          id: 'user',
+          value: 140,
+        }
+      ],
     };
 
     this.renderDeleteButton = this.renderDeleteButton.bind(this);
@@ -48,23 +54,20 @@ class UserTable extends React.Component {
 
   renderEditable() {
     return (
-      <div className="user-input-header-div">
-        <span>Input new user:</span>
-        <div
-          contentEditable
-          suppressContentEditableWarning
-          onKeyDown={(event) => {
-            if (event.which === 13) {
-              const { users } = this.state;
-              if (!event.target.innerHTML) { return; }
-              users.push({ user: event.target.innerHTML });
-              event.target.innerHTML = '';
-              this.setState({ users });
-              event.preventDefault();
-            }
-          }}
-        />
-      </div>
+      <div
+        contentEditable
+        suppressContentEditableWarning
+        onKeyDown={(event) => {
+          if (event.which === 13) {
+            const { users } = this.state;
+            if (!event.target.innerHTML) { return; }
+            users.push({ user: event.target.innerHTML });
+            event.target.innerHTML = '';
+            this.setState({ users });
+            event.preventDefault();
+          }
+        }}
+      />
     );
   }
 
@@ -76,7 +79,7 @@ class UserTable extends React.Component {
           data={users}
           columns={[
             {
-              Header: 'User Table',
+              Header: 'Add / Delete a User',
               headerClassName: 'user-table-header',
               columns: [
                 {

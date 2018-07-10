@@ -5,14 +5,9 @@
   width: 90%;
 }
 
-.user-table .user-input-header-div {
-  text-align: left;
-  margin-left: 10px;
-}
 
 .user-table .user-input-header [contenteditable="true"] {
   text-align: center;
-  margin-left: 10px;
   width: 90%;
   display: inline-block;
 }

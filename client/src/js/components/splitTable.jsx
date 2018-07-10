@@ -9,9 +9,10 @@ import '../../css/splitTable.css';
 class SplitTable extends React.Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       page: 0,
+      sideTab: false,
     };
     this.page = {
       0: <CostTable />,
@@ -20,13 +21,36 @@ class SplitTable extends React.Component {
 
 
   render() {
-    const { page } = this.state;
+    const { page, sideTab } = this.state;
     return (
       <div className="split-table-frame">
         {this.page[page]}
-        <div className="side-tabs">
-          <div className="side-modal-overlay" />
-          <UserTable />
+        <div
+          className={`side-tab-button ${sideTab ? 'slide-out' : ''}`}
+          onClick={() => {
+            this.setState({ sideTab: true });
+          }}
+        >
+          Show Side Tables
+        </div>
+        <div
+          className={`side-tab ${sideTab ? 'slide-in' : ''}`}
+        >
+          <div
+            className={`side-modal-overlay ${sideTab ? 'slide-in' : ''}`}
+            onClick={() => {
+              this.setState({ sideTab: false });
+            }}
+          />
+          <div
+            className={`side-tab-overlay ${sideTab ? 'slide-in' : ''}`}
+          >
+            <div
+              className="user-table-frame"
+            >
+              <UserTable />
+            </div>
+          </div>
         </div>
       </div>
     );
